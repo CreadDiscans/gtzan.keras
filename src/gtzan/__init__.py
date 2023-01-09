@@ -4,6 +4,7 @@ from gtzan.utils import majority_voting
 from gtzan.utils import get_genres
 from joblib import load
 from tensorflow.keras.models import load_model
+import json
 
 __all__ = ['AppManager']
 
@@ -26,5 +27,7 @@ class AppManager:
 
             preds = model.predict(X)
             votes = majority_voting(preds, self.genres)
-            print("{} is a {} song".format(self.args.song, votes[0][0]))
-            print("most likely genres are: {}".format(votes[:3]))
+            with open('/tmp/grape-shared/genre_classification/genre.json', 'w') as f:
+                f.write(json.dumps(votes))
+#             print("{} is a {} song".format(self.args.song, votes[0][0]))
+#             print("most likely genres are: {}".format(votes[:3]))
